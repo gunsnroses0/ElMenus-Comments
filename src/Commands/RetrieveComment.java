@@ -23,12 +23,17 @@ public class RetrieveComment extends Command {
         JSONParser parser = new JSONParser();
 
         try {
-        	
 			JSONObject messageBody = (JSONObject) parser.parse((String) props.get("body"));
 			String uri = (messageBody).get("uri").toString();
-			String type = ((JSONObject) (messageBody).get("parameters")).get("type").toString();
-			String target_id = StringUtils.substringBetween(uri, "/comment/", "?type=");
-						
+			
+			String target_id = "", type = "";
+			if(uri.contains("?type=")) {
+				target_id = StringUtils.substringBetween(uri, "/comment/", "?type=");
+				type = ((JSONObject) (messageBody).get("parameters")).get("type").toString();
+			}else {
+				target_id = StringUtils.removeStart(uri, "/comment/");
+			}
+
             AMQP.BasicProperties properties = (AMQP.BasicProperties) props.get("properties");
             AMQP.BasicProperties replyProps = (AMQP.BasicProperties) props.get("replyProps");
             Envelope envelope = (Envelope) props.get("envelope");

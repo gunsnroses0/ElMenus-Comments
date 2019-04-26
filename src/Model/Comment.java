@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -22,9 +23,18 @@ public class Comment {
 	private static final MongoClientURI uri = new MongoClientURI(
 			"mongodb://localhost");
 
-
+	private static int DbPoolCount = 4;
+	public static int getDbPoolCount() {
+		return DbPoolCount;
+	}
+	public static void setDbPoolCount(int dbPoolCount) {
+		DbPoolCount = dbPoolCount;
+	}
 	public static HashMap<String, Object> create(HashMap<String, Object> attributes, String target_id) {
-
+		MongoClientOptions.Builder options = MongoClientOptions.builder()
+	            .connectionsPerHost(DbPoolCount);
+		MongoClientURI uri = new MongoClientURI(
+				"mongodb://localhost",options);
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");
 
@@ -46,8 +56,13 @@ public class Comment {
 
 
 	public static ArrayList<HashMap<String, Object>> get(String commentId, String type) {
-
+		
+		MongoClientOptions.Builder options = MongoClientOptions.builder()
+	            .connectionsPerHost(DbPoolCount);
+		MongoClientURI uri = new MongoClientURI(
+				"mongodb://localhost",options);
 		MongoClient mongoClient = new MongoClient(uri);
+		
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");
 
 		// Retrieving a collection

@@ -7,4 +7,3 @@ POST,/comment/updateThreadPoolCount/,UpdateThreadPoolCount
 POST,/comment/updateDBPoolCount/,UpdateDBPoolCount
 GET,/comment/freeze/,FreezeQueue
 GET,/comment/resume/,ResumeQueue
-POST,/comment,Test

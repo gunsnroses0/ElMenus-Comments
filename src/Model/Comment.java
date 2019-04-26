@@ -56,7 +56,7 @@ public class Comment {
 
 		mongoClient.close();
 		
-		return attributes;
+		return returnValue;
 	}
 
 

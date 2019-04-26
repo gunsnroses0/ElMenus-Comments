@@ -22,6 +22,8 @@ public class Comment {
 	private static final String COLLECTION_NAME = "comments";
 	private static final MongoClientURI uri = new MongoClientURI(
 			"mongodb://localhost");
+	static String host = System.getenv("MONGO_URI");
+
 
 	private static int DbPoolCount = 4;
 	public static int getDbPoolCount() {
@@ -34,7 +36,7 @@ public class Comment {
 		MongoClientOptions.Builder options = MongoClientOptions.builder()
 	            .connectionsPerHost(DbPoolCount);
 		MongoClientURI uri = new MongoClientURI(
-				"mongodb://localhost",options);
+				host,options);
 		MongoClient mongoClient = new MongoClient(uri);
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");
 
@@ -65,7 +67,7 @@ public class Comment {
 		MongoClientOptions.Builder options = MongoClientOptions.builder()
 	            .connectionsPerHost(DbPoolCount);
 		MongoClientURI uri = new MongoClientURI(
-				"mongodb://localhost",options);
+				host,options);
 		MongoClient mongoClient = new MongoClient(uri);
 		
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");

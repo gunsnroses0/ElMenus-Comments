@@ -30,7 +30,7 @@ public class Comment {
 	public static void setDbPoolCount(int dbPoolCount) {
 		DbPoolCount = dbPoolCount;
 	}
-	public static HashMap<String, Object> create(HashMap<String, Object> attributes, String target_id) {
+	public static HashMap<String, Object> create(HashMap<String, Object> attributes, String target_id) throws ParseException {
 		MongoClientOptions.Builder options = MongoClientOptions.builder()
 	            .connectionsPerHost(DbPoolCount);
 		MongoClientURI uri = new MongoClientURI(
@@ -49,6 +49,11 @@ public class Comment {
 		newComment.append("target_id", new ObjectId(target_id));
 		
 		collection.insertOne(newComment);
+		JSONParser parser = new JSONParser();
+
+		HashMap<String, Object> returnValue = Command.jsonToMap((JSONObject) parser.parse(newComment.toJson()));
+
+
 		mongoClient.close();
 		
 		return attributes;

@@ -54,7 +54,7 @@ public class CommentsService {
 		}
 
 		// initialize thread pool of fixed size
-		final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+		final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threadPoolCount);
 
 		ConnectionFactory factory = new ConnectionFactory();
 		String host = System.getenv("RABBIT_MQ_SERVICE_HOST");

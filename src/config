@@ -1,5 +1,5 @@
 POST,/comment/id,CreateComment
-GET,/comment/id,RetreiveComment
+GET,/comment/id,RetrieveComment
 POST,/comment/addCommand/,AddCommand
 POST,/comment/updateCommand/,UpdateCommand
 POST,/comment/deleteCommand/,DeleteCommand

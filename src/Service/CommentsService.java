@@ -27,6 +27,8 @@ import Commands.RetrieveComment;
 
 public class CommentsService {
 	private static String RPC_QUEUE_NAME = "comment-request";
+	static String host = System.getenv("MONGO_URI");
+
 
 	public static String getRPC_QUEUE_NAME() {
 		return RPC_QUEUE_NAME;

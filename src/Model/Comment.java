@@ -20,8 +20,6 @@ import Commands.Command;
 public class Comment {
 
 	private static final String COLLECTION_NAME = "comments";
-	private static final MongoClientURI uri = new MongoClientURI(
-			"mongodb://localhost");
 	static String host = System.getenv("MONGO_URI");
 
 
@@ -32,12 +30,21 @@ public class Comment {
 	public static void setDbPoolCount(int dbPoolCount) {
 		DbPoolCount = dbPoolCount;
 	}
-	public static HashMap<String, Object> create(HashMap<String, Object> attributes, String target_id) throws ParseException {
-		MongoClientOptions.Builder options = MongoClientOptions.builder()
-	            .connectionsPerHost(DbPoolCount);
-		MongoClientURI uri = new MongoClientURI(
+	
+	static MongoClientOptions.Builder options = null;
+	static MongoClientURI uri = null;
+	static MongoClient mongoClient = null; 
+	
+	public static void initializeDb() {
+		options = MongoClientOptions.builder()
+				.connectionsPerHost(DbPoolCount);
+		uri = new MongoClientURI(
 				host,options);
-		MongoClient mongoClient = new MongoClient(uri);
+		mongoClient = new MongoClient(uri);
+			
+	}
+	public static HashMap<String, Object> create(HashMap<String, Object> attributes, String target_id) throws ParseException {
+
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");
 
 		// Retrieving a collection
@@ -55,20 +62,12 @@ public class Comment {
 
 		HashMap<String, Object> returnValue = Command.jsonToMap((JSONObject) parser.parse(newComment.toJson()));
 
-
-		mongoClient.close();
 		
 		return returnValue;
 	}
 
 
 	public static ArrayList<HashMap<String, Object>> get(String commentId, String type) {
-		
-		MongoClientOptions.Builder options = MongoClientOptions.builder()
-	            .connectionsPerHost(DbPoolCount);
-		MongoClientURI uri = new MongoClientURI(
-				host,options);
-		MongoClient mongoClient = new MongoClient(uri);
 		
 		MongoDatabase database = mongoClient.getDatabase("El-Menus");
 
@@ -93,7 +92,6 @@ public class Comment {
 			}
 		}
 		
-		mongoClient.close();
         return comments;
 		
 	}

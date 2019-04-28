@@ -24,6 +24,7 @@ import com.rabbitmq.client.Envelope;
 import Commands.Command;
 import Commands.CreateComment;
 import Commands.RetrieveComment;
+import Model.Comment;
 
 public class CommentsService {
 	private static String RPC_QUEUE_NAME = "comment-request";
@@ -45,6 +46,7 @@ public class CommentsService {
 	public static void main(String[] argv) {
 		run();
 		ServiceController.run();
+		Comment.initializeDb();
 	}
 
 	public static void run() {
